@@ -16,14 +16,15 @@ INVARIANT
     pecasj1 <: (0..11) & pecasj1 <: NAT &
     pecasj2 <: (0..11) & pecasj2 <: NAT &
     damasj1 <: pecasj1 & damasj2 <: pecasj2 &
-    & peca_atual : (-1..11)
+    peca_atual : (-1..11)
 INITIALISATION
     pecasj1, pecasj2, damasj1, damasj2, current_piece := (0..11),(0..11), {}, {}, -1
 OPERATIONS
     //Operacao para recuperar o vencedor
     vv <-- declarar_vencedor =
     PRE
-        card(pecasj1) = 0 or card(pecasj2) = 0
+        card(pecasj1) = 0 or 
+        card(pecasj2) = 0
     THEN
         IF
             card(pecasj1) = 0 
@@ -85,18 +86,20 @@ OPERATIONS
         ELSE
             damasj2 := damasj2 \/ {peca}
         END
-    END
-    
+    END;
+    //verifica se a peca é uma dama
     eh_dama <-- verifica_dama(peca, jogador)=
-    PRE peca:(0..11) & jogador:PLAYERS 
+    PRE 
+        peca:(0..11) & 
+        jogador:JOGADORES 
     THEN
         IF 
-            (jogador = P1 & pc:pieces1 & pc:checkers1) or 
-            (jogador = P2 & pc:pieces2 & pc:checkers2)
+            (jogador = J1 & peca:pecasj1 & peca:damasj1) or 
+            (jogador = J2 & peca:pecasj2 & peca:damasj2)
         THEN 
             eh_dama := sim
         ELSE
             eh_dama := nao
         END 
-END;
+    END;
 END

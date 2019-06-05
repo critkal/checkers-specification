@@ -27,14 +27,14 @@ OPERATIONS
     mover_peca(peca, jogador, posicao) =
     PRE 
         jogador : JOGADORES &
-        peca : (0..11)
+        peca : (0..11) &
+        peca : pecasj1 or peca: pecasj2 &
+        posicao : CASAS
     THEN
         IF 
             jogador = J1 & peca : pecasj1
         THEN
-            
+            //todo
         END
     END
-    
-            
 END
