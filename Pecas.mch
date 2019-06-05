@@ -9,18 +9,20 @@ SEES
 SETS
     RESPOSTA = {sim, nao}   
 VARIABLES
-    pecasj1, pecasj2, damasj1, damasj2
+    pecasj1, pecasj2, 
+    damasj1, damasj2, 
+    peca_atual
 INVARIANT
     pecasj1 <: (0..11) & pecasj1 <: NAT &
     pecasj2 <: (0..11) & pecasj2 <: NAT &
-    damasj1 <: pecasj1 & damasj2 <: pecasj2
+    damasj1 <: pecasj1 & damasj2 <: pecasj2 &
+    & peca_atual : (-1..11)
 INITIALISATION
-    pecasj1, pecasj2, damasj1, damasj2 := (0..11),(0..11), {}, {}
+    pecasj1, pecasj2, damasj1, damasj2, current_piece := (0..11),(0..11), {}, {}, -1
 OPERATIONS
     //Operacao para recuperar o vencedor
     vv <-- declarar_vencedor =
     PRE
-        //Algum dos jogadores tem que estar sem peças
         card(pecasj1) = 0 or card(pecasj2) = 0
     THEN
         IF
@@ -35,7 +37,7 @@ OPERATIONS
             END
         END
     END;
-    
+    //remove uma peça que foi comida
     remover_peca(peca, jogador) = 
     PRE
         jogador : JOGADORES &
@@ -51,7 +53,7 @@ OPERATIONS
             pecasj2 := pecasj2 - {peca}
         END
     END;
-    
+    //remove uma dama que foi comida
     remover_dama(dama, jogador) = 
     PRE
         jogador : JOGADORES &
@@ -69,7 +71,7 @@ OPERATIONS
             pecasj2 := pecasj2 - {dama}
         END
     END;
-    
+    //transforma a peça numa dama
     criar_dama(peca, jogador) = 
     PRE
         peca : (0..11) & peca : NAT &
@@ -83,5 +85,18 @@ OPERATIONS
         ELSE
             damasj2 := damasj2 \/ {peca}
         END
-    END;
+    END
+    
+    eh_dama <-- verifica_dama(peca, jogador)=
+    PRE peca:(0..11) & jogador:PLAYERS 
+    THEN
+        IF 
+            (jogador = P1 & pc:pieces1 & pc:checkers1) or 
+            (jogador = P2 & pc:pieces2 & pc:checkers2)
+        THEN 
+            eh_dama := sim
+        ELSE
+            eh_dama := nao
+        END 
+END;
 END
