@@ -14,7 +14,7 @@ VARIABLES
 INVARIANT
     pecasj1 <: (0..11) & pecasj1 <: NAT &
     pecasj2 <: (0..11) & pecasj2 <: NAT &
-    damasj1 <: pecasj1 & damasj2 <: pecasj2
+    damasj1 /\ pecasj1 = {} & damasj2 /\ pecasj2 = {}
 INITIALISATION
     pecasj1, pecasj2, damasj1, damasj2 := (0..11),(0..11), {}, {}
 OPERATIONS
@@ -81,9 +81,9 @@ OPERATIONS
             jogador = J1 &
             peca /: damasj1
         THEN
-            damasj1 := damasj1 \/ {peca}
+            damasj1 := damasj1 \/ {peca} || pecasj1 := pecasj1 - {peca}
         ELSE
-            damasj2 := damasj2 \/ {peca}
+            damasj2 := damasj2 \/ {peca} || pecasj2 := pecasj2 - {peca}
         END
     END;
     //verifica se a peça é uma dama
@@ -93,8 +93,8 @@ OPERATIONS
         jogador:JOGADORES 
     THEN
         IF 
-            (jogador = J1 & peca:pecasj1 & peca:damasj1) or 
-            (jogador = J2 & peca:pecasj2 & peca:damasj2)
+            (jogador = J1 & peca:damasj1) or 
+            (jogador = J2 & peca:damasj2)
         THEN 
             eh_dama := sim
         ELSE
