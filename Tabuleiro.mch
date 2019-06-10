@@ -1,5 +1,5 @@
 /* Tabuleiro
- * Author: sgmgamer
+ * Author: Gabriel Azevedo
  * Creation date: 03/06/2019
  */
 MACHINE

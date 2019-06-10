@@ -1,5 +1,5 @@
 /* Pecas
- * Author: sgmgamer
+ * Author: Gabriel Azevedo
  * Creation date: 03/06/2019
  */
 MACHINE
@@ -10,16 +10,15 @@ SETS
     RESPOSTA = {sim, nao}   
 VARIABLES
     pecasj1, pecasj2, 
-    damasj1, damasj2, 
-    peca_atual
+    damasj1, damasj2
 INVARIANT
     pecasj1 <: (0..11) & pecasj1 <: NAT &
     pecasj2 <: (0..11) & pecasj2 <: NAT &
-    damasj1 <: pecasj1 & damasj2 <: pecasj2 &
-    peca_atual : (-1..11)
+    damasj1 <: pecasj1 & damasj2 <: pecasj2
 INITIALISATION
-    pecasj1, pecasj2, damasj1, damasj2, current_piece := (0..11),(0..11), {}, {}, -1
+    pecasj1, pecasj2, damasj1, damasj2 := (0..11),(0..11), {}, {}
 OPERATIONS
+    
     //Operacao para recuperar o vencedor
     vv <-- declarar_vencedor =
     PRE
@@ -87,7 +86,7 @@ OPERATIONS
             damasj2 := damasj2 \/ {peca}
         END
     END;
-    //verifica se a peca é uma dama
+    //verifica se a peça é uma dama
     eh_dama <-- verifica_dama(peca, jogador)=
     PRE 
         peca:(0..11) & 
@@ -101,5 +100,5 @@ OPERATIONS
         ELSE
             eh_dama := nao
         END 
-    END;
+    END
 END
