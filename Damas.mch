@@ -4,7 +4,7 @@
  */
 MACHINE
     Damas
-INCLUDES
+EXTENDS
     Pecas
 SEES
     Jogadores, Tabuleiro

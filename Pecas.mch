@@ -14,6 +14,7 @@ VARIABLES
 INVARIANT
     pecasj1 <: (0..11) & pecasj1 <: NAT &
     pecasj2 <: (0..11) & pecasj2 <: NAT &
+    damasj1 <: (0..11) & damasj2 <: (0..11) &
     damasj1 /\ pecasj1 = {} & damasj2 /\ pecasj2 = {}
 INITIALISATION
     pecasj1, pecasj2, damasj1, damasj2 := (0..11),(0..11), {}, {}
