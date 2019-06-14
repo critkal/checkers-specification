@@ -1,0 +1,13 @@
+/* Tabuleiro_i
+ * Author: sgmgamer
+ * Creation date: 14/06/2019
+ */
+
+IMPLEMENTATION 
+    Tabuleiro_i
+REFINES 
+    Tabuleiro
+VALUES
+    LINHAS = 1..8;
+    COLUNAS = 1..8
+END

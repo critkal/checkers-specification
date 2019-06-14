@@ -14,8 +14,8 @@ VARIABLES
     array_auxiliar, 
     peca_atual
 INVARIANT
-    posicoes1 : pecasj1 >-> CASAS & 
-    posicoes2 : pecasj2 >-> CASAS &
+    posicoes1 : pecasj1 >-> (LINHAS * COLUNAS) & 
+    posicoes2 : pecasj2 >-> (LINHAS * COLUNAS) &
     jogador_da_vez : JOGADORES &
     array_auxiliar : (0..3) --> (0..8)  &
     peca_atual : (-1..11)

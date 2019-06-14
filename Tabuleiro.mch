@@ -5,7 +5,7 @@
 MACHINE
     Tabuleiro
 CONSTANTS
-    CASAS
+    LINHAS, COLUNAS
 PROPERTIES
-    CASAS = (1..8)*(1..8)
+    LINHAS = (1..8) & COLUNAS = (1..8)
 END
