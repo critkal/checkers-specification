@@ -1,13 +1,13 @@
-/* Tabuleiro_i
+﻿/* Tabuleiro_i
  * Author: sgmgamer
  * Creation date: 14/06/2019
  */
 
-IMPLEMENTATION 
+IMPLEMENTATION
     Tabuleiro_i
-REFINES 
+REFINES
     Tabuleiro
 VALUES
-    LINHAS = 1..8;
-    COLUNAS = 1..8
+    LINHAS = 1 .. 8 ;
+    COLUNAS = 1 .. 8
 END

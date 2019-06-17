@@ -1,0 +1,172 @@
+﻿/* Damas_i
+ * Author: gabri
+ * Creation date: 6/16/2019
+ */
+
+IMPLEMENTATION
+    Damas_i
+REFINES
+    Damas
+IMPORTS
+    Pecas
+SEES
+    Jogadores , Tabuleiro
+CONCRETE_VARIABLES
+     linhaj1 , colunaj1 ,
+     linhaj2 , colunaj2 ,
+     peca_atual ,
+     array_atual ,
+     jogador_atual
+
+INVARIANT
+    linhaj1 : ( 0 .. 11 ) -->> LINHAS &
+    linhaj2 : ( 0 .. 11 ) -->> LINHAS &
+    colunaj1 : ( 0 .. 11 ) -->> COLUNAS &
+    colunaj2 : ( 0 .. 11 ) -->> COLUNAS &
+    ! pp . ( pp : ( 0 .. 11 ) => posicoes1 ( pp ) = ( linhaj1 ( pp ) , colunaj1 ( pp ) ) ) &
+    ! pp . ( pp : ( 0 .. 11 ) => posicoes2 ( pp ) = ( linhaj1 ( pp ) , colunaj1 ( pp ) ) ) &
+    ! rr . ( rr : pecasj1 => not ( linhaj1 ( rr ) = 0 or colunaj1 ( rr ) = 0 ) ) &
+    ! rr . ( rr : pecasj2 => not ( linhaj2 ( rr ) = 0 or colunaj2 ( rr ) = 0 ) ) &
+    peca_atual : ( - 1 .. 11 ) &
+    jogador_atual : JOGADORES &
+    array_atual : ( 0 .. 3 ) -->> NAT
+
+INITIALISATION
+    jogador_atual := J1 ;
+    array_atual := ( 0 .. 3 ) * { 0 } ;
+    peca_atual := - 1 ;
+    VAR
+        pc , ll , cc , llm , ccm , ii
+    IN
+        pc := 0 ;
+        ll := 1 ;
+        cc := 1 ;
+        llm := - 1 ;
+        ccm := - 1 ;
+        ii := 0 ;
+        //inicialização das linhas e colunas para o J1
+        WHILE
+            ll <= 3 &
+            pc < 12
+        DO
+            cc := 1 ;
+            WHILE
+                cc <= 8 &
+                pc < 12
+            DO
+                llm := ll mod 2 ;
+                ccm := cc mod 2 ;
+                IF
+                    ( llm = 0 & ccm = 0 ) or
+                    ( llm = 1 & ccm = 1 )
+                THEN
+                    linhaj1 ( pc ) := ll ;
+                    colunaj1 ( pc ) := cc ;
+                    pc := pc + 1
+                END ;
+                cc := cc + 1
+            INVARIANT
+                ! pci . ( pci : ( 0 .. pc - 1 ) => linhaj1 ( pci ) <= ll & colunaj1 ( pci ) <= cc )
+            VARIANT
+                8 - cc
+            END ;
+            ll := ll + 1
+        INVARIANT
+            ! pci . ( pci : ( 0 .. pc - 1 ) => linhaj1 ( pci ) <= ll & colunaj1 ( pci ) <= cc )
+        VARIANT ( ll - 2 )
+        END ;
+        //inicialização das linhas e colunas para o J2
+        pc := 0 ;
+        ll := 8 ;
+        cc := 1 ;
+        WHILE
+            ll >= 6 &
+            pc < 12
+        DO
+            cc := 1 ;
+            WHILE
+                cc <= 8 &
+                pc < 12
+            DO
+                llm := ll mod 2 ;
+                ccm := cc mod 2 ;
+                IF
+                    ( llm = 0 & ccm = 0 ) or
+                    ( llm = 1 & ccm = 1 )
+                THEN
+                    linhaj2 ( pc ) := ll ;
+                    colunaj2 ( pc ) := cc ;
+                    pc := pc + 1
+                END ;
+                cc := cc + 1
+            INVARIANT
+                ! pci . ( pci : ( 0 .. pc - 1 ) => linhaj1 ( pci ) >= ll & colunaj1 ( pci ) <= cc )
+            VARIANT
+                8 - cc
+            END ;
+            ll := ll - 1
+        INVARIANT
+            ! pci . ( pci : ( 0 .. pc - 1 ) => linhaj1 ( pci ) >= ll & colunaj1 ( pci ) <= cc )
+        VARIANT ( 8 - ll )
+        END
+END
+
+OPERATIONS
+    //Move a peca_atual para a linha x coluna desejada
+    move ( linha , coluna ) =
+    BEGIN
+        //pré condição(estar dentro do tabuleiro)
+        IF
+            linha >= 1 &
+            linha <= 8 &
+            coluna >= 1 &
+            coluna <= 8
+        THEN
+            array_atual := ( 0 .. 3 ) * { 0 } ;
+            IF
+                jogador_atual = J1 &
+                peca_atual >= 0 &
+                peca_atual <= 11
+            THEN
+                linhaj1 ( peca_atual ) := linha ;
+                colunaj1 ( peca_atual ) := coluna ;
+                jogador_atual := J2 ;
+                //se o destino for a ultima linha, vira dama
+                IF
+                    linha = 8
+                THEN
+                    criar_dama ( peca_atual , jogador_atual )
+                END
+            ELSE
+                IF
+                    jogador_atual = J2 &
+                    peca_atual >= 0 &
+                    peca_atual <= 11
+                THEN
+                    linhaj2 ( peca_atual ) := linha ;
+                    colunaj2 ( peca_atual ) := coluna ;
+                    jogador_atual := J1 ;
+                    //se o destino for a ultima linha, vira dama
+                    IF
+                        linha = 1
+                    THEN
+                        criar_dama ( peca_atual , jogador_atual )
+                    END
+                END
+            END ;
+            peca_atual := - 1
+        END
+    END ;
+
+
+    opcoes <-- movimentos_validos ( peca ) =
+    BEGIN
+        skip
+    END ;
+
+
+    comer_peca ( peca , alvo ) =
+    BEGIN
+        skip
+    END
+ END
