@@ -1,4 +1,4 @@
-﻿/* Pecas_i
+/* Pecas_i
  * Author: sgmgamer
  * Creation date: 14/06/2019
  */
@@ -9,231 +9,231 @@ REFINES Pecas
 SEES
     Jogadores
 
-CONCRETE_VARIABLES
-    pecasj1_i ,
-    pecasj2_i ,
-    damasj1_i ,
-    damasj2_i ,
+CONCRETE_VARIABLES 
+    pecasj1_i, pecasj2_i,
+    damasj1_i, damasj2_i,
     winner
 
 INVARIANT
-    pecasj1_i : ( 0 .. 11 ) --> BOOL &
-    pecasj2_i : ( 0 .. 11 ) --> BOOL &
-    damasj1_i : ( 0 .. 11 ) --> BOOL &
-    damasj2_i : ( 0 .. 11 ) --> BOOL &
-    winner : ( 0 .. 2 ) --> BOOL &
-    pecasj1 = dom ( pecasj1_i |> { TRUE } ) &
-    pecasj2 = dom ( pecasj2_i |> { TRUE } ) &
-    damasj1 = dom ( damasj1_i |> { TRUE } ) &
-    damasj2 = dom ( damasj2_i |> { TRUE } ) &
-    ! xx . ( xx : dom ( pecasj1_i |> { TRUE } ) => xx /: dom ( damasj1_i |> { TRUE } ) ) &
-    ! yy . ( yy : dom ( pecasj2_i |> { TRUE } ) => yy /: dom ( damasj2_i |> { TRUE } ) )
+    pecasj1_i : (0..11) --> BOOL & 
+    pecasj2_i : (0..11) --> BOOL & 
+    damasj1_i : (0..11) --> BOOL & 
+    damasj2_i : (0..11) --> BOOL & 
+    winner : (0..2) --> BOOL & 
+    pecasj1 = dom(pecasj1_i |> {TRUE}) & 
+    pecasj2 = dom(pecasj2_i |> {TRUE}) & 
+    damasj1 = dom(damasj1_i |> {TRUE}) & 
+    damasj2 = dom(damasj2_i |> {TRUE}) &
+    !xx.(xx: dom(pecasj1_i |> {TRUE}) => xx /: dom(damasj1_i |> {TRUE})) &
+    !yy.(yy: dom(pecasj2_i |> {TRUE}) => yy /: dom(damasj2_i |> {TRUE})) 
 
 INITIALISATION
-    VAR
-        indice
+    VAR 
+        indice 
     IN
-        indice := 0 ;
-        WHILE
+        indice := 0;
+        WHILE 
             indice <= 11
-        DO
-            pecasj1_i ( indice ) := TRUE ;
-            pecasj2_i ( indice ) := TRUE ;
-            damasj1_i ( indice ) := FALSE ;
-            damasj2_i ( indice ) := FALSE ;
+        DO 
+            pecasj1_i(indice) := TRUE;
+            pecasj2_i(indice) := TRUE;
+            damasj1_i(indice) := FALSE;
+            damasj2_i(indice) := FALSE;
             indice := indice + 1
         INVARIANT
-            ! xx . ( xx : 0 .. ( 11 - indice ) =>
-            ( pecasj1_i ( indice ) = TRUE &
-            damasj1_i ( indice ) = FALSE &
-            pecasj2_i ( indice ) = TRUE &
-            damasj2_i ( indice ) = FALSE ) )
+            !xx.(xx:0..(11 - indice) => 
+            (pecasj1_i(indice) = TRUE & 
+            damasj1_i(indice) = FALSE & 
+            pecasj2_i(indice) = TRUE & 
+            damasj2_i(indice) = FALSE))
         VARIANT
             11 - indice
         END
-    END ;
-    winner ( 0 ) := TRUE ;
-    winner ( 1 ) := FALSE ;
-    winner ( 2 ) := FALSE
-
+    END;
+    winner(0) := TRUE; 
+    winner(1) := FALSE; 
+    winner(2) := FALSE
+    
 OPERATIONS
     vv <-- declarar_vencedor =
     BEGIN
-        VAR
-            ij1 , ij2 , v1 , v2
+        vv := NOBODY;
+        VAR 
+            ij1, ij2, v1, v2 
         IN
-            ij1 := 0 ;
-            ij2 := 0 ;
-            v1 := winner ( 1 ) ;
-            v2 := winner ( 2 ) ;
-            WHILE
-                ij1 < 12 &
+            ij1 := 0;
+            ij2 := 0;
+            v1 := winner(1);
+            v2 := winner(2);
+            WHILE 
+                ij1 < 12 & 
                 v1 = FALSE
             DO
-                VAR
-                    tt
+                VAR 
+                    tt 
                 IN
-                    tt := pecasj1_i ( ij1 ) ;
-                    IF
+                    tt := pecasj1_i(ij1); 
+                    IF 
                         tt = TRUE
-                    THEN
-                        winner ( 1 ) := TRUE
+                    THEN 
+                        winner(1) := TRUE
                     END
-                END ;
+                END;
                 ij1 := ij1 + 1
-            INVARIANT
-                ! xx . ( xx : 0 .. ( ij1 - 1 ) => ( pecasj1_i ( ij1 ) = FALSE ) )
-            VARIANT
+            INVARIANT 
+                !xx . (xx:0..(ij1-1) => (pecasj1_i(ij1) = FALSE))
+            VARIANT 
                 12 - ij1
-            END ;
-            IF
+            END;
+            IF 
                 v1 = FALSE
-            THEN
-                vv := J2 ;
-                winner ( 2 ) := TRUE ;
-                winner ( 0 ) := FALSE
+            THEN 
+                vv := J2;
+                winner(2) := TRUE;
+                winner(0) := FALSE
             ELSE
-                WHILE
-                    ( ij2 < 12 & v2 = FALSE )
+                WHILE 
+                    (ij2 < 12 & v2 = FALSE) 
                 DO
-                    VAR
-                        rr
+                    VAR 
+                        rr 
                     IN
-                        rr := pecasj2_i ( ij2 ) ;
-                        IF
-                            rr = TRUE
-                        THEN
-                            winner ( 2 ) := TRUE
+                        rr := pecasj2_i(ij2); 
+                        IF 
+                            rr = TRUE 
+                        THEN 
+                            winner(2) := TRUE 
                         END
-                    END ;
+                    END;
                     ij2 := ij2 + 1
-                INVARIANT
-                    ! nn . ( nn : 0 .. ( ij2 - 1 ) => ( pecasj2_i ( ij2 ) = FALSE ) )
-                VARIANT
+                INVARIANT 
+                    !nn . (nn:0..(ij2-1) => (pecasj2_i(ij2) = FALSE))
+                VARIANT 
                     12 - ij2
-                END ;
-                IF
+                END;
+                IF 
                     v2 = FALSE
-                THEN
-                    vv := J1 ;
-                    winner ( 1 ) := TRUE ;
-                    winner ( 0 ) := FALSE
+                THEN 
+                    vv := J1; 
+                    winner(1) := TRUE; 
+                    winner(0) := FALSE
                 ELSE
-                    winner ( 1 ) := FALSE ;
-                    winner ( 2 ) := FALSE
+                    winner(1) := FALSE;
+                    winner(2) := FALSE
                 END
             END
-
+            
         END
 END ;
 
     //remove uma peça que foi comida
-    remover_peca ( peca , jogador ) =
+    remover_peca(peca, jogador) = 
     BEGIN
-        VAR
-            dama1 , dama2
+        VAR 
+            dama1, dama2 
         IN
-            dama1 := damasj1_i ( peca ) ;
-            dama2 := damasj2_i ( peca ) ;
-            IF
-                peca >= 0 &
-                peca <= 11 &
-                dama1 = FALSE &
-                dama2 = FALSE &
-                ( jogador = J1 or jogador = J2 )
+            dama1 := damasj1_i(peca);
+            dama2 := damasj2_i(peca);
+            IF 
+                peca >= 0 & 
+                peca <= 11 & 
+                dama1 = FALSE & 
+                dama2 = FALSE & 
+                (jogador = J1 or jogador = J2)
             THEN
-                IF
+                IF 
                     jogador = J1
-                THEN
-                    pecasj1_i ( peca ) := FALSE
-                ELSE
-                    pecasj2_i ( peca ) := FALSE
+                THEN 
+                    pecasj1_i(peca) := FALSE
+                ELSE 
+                    pecasj2_i(peca) := FALSE
                 END
             END
         END
-    END ;
+    END;
 
     //remove uma dama que foi comida
-    remover_dama ( dama , jogador ) =
+    remover_dama(dama, jogador) = 
     BEGIN
-        VAR
-            dama1 , dama2
+        VAR 
+            dama1, dama2 
         IN
-            dama1 := damasj1_i ( dama ) ;
-            dama2 := damasj2_i ( dama ) ;
-            IF
-                dama >= 0 &
-                dama <= 11 &
-                dama1 = FALSE &
-                dama2 = FALSE &
-                ( jogador = J1 or jogador = J2 )
+            dama1 := damasj1_i(dama);
+            dama2 := damasj2_i(dama);
+            IF 
+                dama >= 0 & 
+                dama <= 11 & 
+                dama1 = FALSE & 
+                dama2 = FALSE & 
+                (jogador = J1 or jogador = J2)
             THEN
-                IF
+                IF 
                     jogador = J1
-                THEN
-                    damasj1_i ( dama ) := FALSE
-                ELSE
-                    damasj2_i ( dama ) := FALSE
+                THEN 
+                    damasj1_i(dama) := FALSE
+                ELSE 
+                    damasj2_i(dama) := FALSE
                 END
             END
         END
-    END ;
+    END;
 
     //transforma a peça numa dama
-    criar_dama ( peca , jogador ) =
-    BEGIN
-        IF
-            peca >= 0 &
-            peca <= 11 &
-            ( jogador = J1 or jogador = J2 )
+    criar_dama(peca, jogador) = 
+    BEGIN 
+        IF 
+            peca >= 0 & 
+            peca <= 11 & 
+            (jogador = J1 or jogador = J2) 
         THEN
-            VAR
-                peca1 , peca2 , dama1 , dama2
+            VAR 
+                peca1, peca2, dama1, dama2 
             IN
-                peca1 := pecasj1_i ( peca ) ;
-                dama1 := damasj1_i ( peca ) ;
-                peca2 := pecasj2_i ( peca ) ;
-                dama2 := damasj2_i ( peca ) ;
-                IF
-                    jogador = J1 &
-                    peca1 = TRUE &
+                peca1 := pecasj1_i(peca);
+                dama1 := damasj1_i(peca);
+                peca2 := pecasj2_i(peca);
+                dama2 := damasj2_i(peca);
+                IF 
+                    jogador = J1 & 
+                    peca1 = TRUE & 
                     dama1 = FALSE
-                THEN
-                    damasj1_i ( peca ) := TRUE ;
-                    pecasj1_i ( peca ) := FALSE
-                ELSE
-                    IF
-                        jogador = J2 &
-                        peca2 = TRUE &
+                THEN 
+                    damasj1_i(peca) := TRUE;
+                    pecasj1_i(peca) := FALSE
+                ELSE 
+                    IF 
+                        jogador = J2 & 
+                        peca2 = TRUE & 
                         dama2 = FALSE
-                    THEN
-                        damasj2_i ( peca ) := TRUE ;
-                        pecasj2_i ( peca ) := FALSE
+                    THEN 
+                        damasj2_i(peca) := TRUE;
+                        pecasj2_i(peca) := FALSE
                     END
                 END
             END
         END
-END ;
+END;
 //verifica se a peça é uma dama
-    eh_dama <-- verifica_dama ( peca , jogador ) =
+    eh_dama <-- verifica_dama(peca, jogador)=
     BEGIN
-        IF peca >= 0 & peca <= 11 & ( jogador = J1 or jogador = J2 )
+        eh_dama := nao;
+        IF peca >= 0 & peca <= 11 & (jogador = J1 or jogador = J2) 
         THEN
-            VAR
-                peca1 , peca2 , dama1 , dama2
+            VAR 
+                peca1, peca2, dama1, dama2 
             IN
-                peca1 := pecasj1_i ( peca ) ;
-                peca2 := pecasj2_i ( peca ) ;
-                dama1 := damasj1_i ( peca ) ;
-                dama2 := damasj2_i ( peca ) ;
-                IF
-                    ( jogador = J1 &
-                        peca1 = TRUE &
-                        dama1 = TRUE ) or
-                    ( jogador = J2 &
-                        peca2 = TRUE &
-                        dama2 = TRUE )
-                THEN
+                peca1 := pecasj1_i(peca);
+                peca2 := pecasj2_i(peca);
+                dama1 := damasj1_i(peca);
+                dama2 := damasj2_i(peca);
+                IF 
+                    (jogador = J1 & 
+                        peca1 = TRUE & 
+                        dama1 = TRUE) or 
+                    (jogador = J2 & 
+                        peca2 = TRUE & 
+                        dama2 = TRUE)
+                THEN 
                     eh_dama := sim
                 ELSE
                     eh_dama := nao

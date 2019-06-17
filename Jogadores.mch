@@ -1,9 +1,9 @@
-﻿/* Jogadores
+/* Jogadores
  * Author: Gabriel Azevedo
  * Creation date: 6/2/2019
  */
 MACHINE
-    Jogadores
+    Jogadores  
 SETS
-    JOGADORES = { J1 , J2 }
+    JOGADORES = {J1, J2, NOBODY}
 END
